@@ -1,25 +1,60 @@
-const player = {
-  name: "Adventurer",
-  hp: 20,
-  maxHp: 20,
-  mp: 10,
-  maxMp: 10,
-  xp: 0,
-  xpToNextLevel: 50,
-  level: 1,
-  attack: 5,
-  defense: 2,
-  gold: 30,
-  inventory: ["Health potion"],
+// Player
+let state = {
+  player: {
+    name: "Adventurer",
+    hp: 20,
+    maxHp: 20,
+    mp: 10,
+    maxMp: 10,
+    xp: 0,
+    xpToNextLevel: 50,
+    level: 1,
+    attack: 5,
+    defense: 2,
+    gold: 30,
+    weapon: "rusty_dagger",
+    armor: "cloth_rags",
+    spells: [],
+  },
+  inventory: { health_potion: 2 },
+  biome: "city",
+  phase: "explore",
+  enemy: null,
 };
 
-const enemies = {
-  name: "Cow",
-  hp: 5,
-  defence: 1,
-  attack: 1,
+//Monsters
+
+const MONSTERS = {
+  sewer: [
+    { name:'Angry Rat',       hp:12, atk:4,  def:1, xp:8,  gold:[1,6]},
+    { name:'Sewer Slug',      hp:18, atk:6,  def:2, xp:14, gold:[3,10]}, 
+    { name:'Snooze Bat',      hp:22, atk:9,  def:2, xp:20, gold:[5,15]}, 
+    { name:'Rat King',        hp:30, atk:10, def:3, xp:25, gold:[10,20]},
+    { name:'Crockogator',     hp:38, atk:12, def:5, xp:35, gold:[10,25], boss:true },
+  ],
+  forest: [
+    { name:'Beevil Drone',    hp:16, atk:5,  def:2, xp:12, gold:[2,8]},  
+    { name:'Feisty Pushroom', hp:24, atk:8,  def:3, xp:18, gold:[3,12]}, 
+    { name:'Wild Pikavee',    hp:28, atk:11, def:3, xp:25, gold:[8,20]}, 
+    { name:'Woolewoods',      hp:34, atk:12, def:4, xp:30, gold:[8,25]},
+    { name:'Dreadful Vines',  hp:50, atk:15, def:6, xp:50, gold:[15,35],boss:true },
+  ],
+  mountain: [
+    { name:'Rocky Guy',     hp:20, atk:6,  def:3, xp:14, gold:[2,7]},  
+    { name:'Slime-agma',    hp:32, atk:10, def:6, xp:28, gold:[6,18]}, 
+    { name:'Salty Goat',    hp:35, atk:14, def:4, xp:38, gold:[10,28]},
+    { name:'Crystal Drake', hp:60, atk:18, def:8, xp:60, gold:[20,45],boss:true },
+  ],
+  lake: [
+    { name:'Watersprite',   hp:14, atk:5,  def:1, xp:10, gold:[2,8]},  
+    { name:'Toad-toise',    hp:26, atk:8,  def:7, xp:22, gold:[4,14]}, 
+    { name:'Serpuntyne',    hp:40, atk:13, def:5, xp:40, gold:[12,30]},
+    { name:"Chuchu'lu",     hp:65, atk:20, def:7, xp:70, gold:[25,50],boss:true },
+  ],
 };
 
+
+// Main panel
 function renderMainPanel() {
   const panel = document.getElementById("main-panel");
   const intro = document.createElement("div");
@@ -31,12 +66,13 @@ function renderMainPanel() {
 }
 renderMainPanel();
 
+// Player panel
 function renderPlayerPanel() {
   const panel = document.getElementById("player-panel");
 
   const title = document.createElement("div");
   title.className = "panel-title";
-  title.textContent = player.name;
+  title.textContent = state.player.name;
 
   const hpRow = document.createElement("div");
   hpRow.className = "stat-row";
@@ -45,7 +81,7 @@ function renderPlayerPanel() {
   hpLabel.textContent = "HP";
   const hpValue = document.createElement("span");
   hpValue.className = "stat-value";
-  hpValue.textContent = ` ${player.hp} / ${player.maxHp}`;
+  hpValue.textContent = ` ${state.player.hp} / ${state.player.maxHp}`;
 
   const mpRow = document.createElement("div");
   mpRow.className = "stat-row";
@@ -54,7 +90,7 @@ function renderPlayerPanel() {
   mpLabel.textContent = "MP";
   const mpValue = document.createElement("span");
   mpValue.className = "stat-value";
-  mpValue.textContent = ` ${player.mp} / ${player.maxMp}`;
+  mpValue.textContent = ` ${state.player.mp} / ${state.player.maxMp}`;
 
   const xpRow = document.createElement("div");
   xpRow.className = "stat-row";
@@ -63,7 +99,7 @@ function renderPlayerPanel() {
   xpLabel.textContent = "XP";
   const xpValue = document.createElement("span");
   xpValue.className = "stat-value";
-  xpValue.textContent = ` ${player.xp} / ${player.xpToNextLevel}`;
+  xpValue.textContent = ` ${state.player.xp} / ${state.player.xpToNextLevel}`;
 
   const levelRow = document.createElement("div");
   levelRow.className = "stat-row";
@@ -72,7 +108,7 @@ function renderPlayerPanel() {
   levelLabel.textContent = "level ";
   const levelValue = document.createElement("span");
   levelValue.className = "stat-value";
-  levelValue.textContent = ` ${player.level}`;
+  levelValue.textContent = ` ${state.player.level}`;
 
   const attackRow = document.createElement("div");
   attackRow.className = "stat-row";
@@ -81,7 +117,7 @@ function renderPlayerPanel() {
   attackLabel.textContent = "Attack";
   const attackValue = document.createElement("span");
   attackValue.className = "stat-value";
-  attackValue.textContent = ` ${player.attack}`;
+  attackValue.textContent = ` ${state.player.attack}`;
 
   const defenceRow = document.createElement("div");
   defenceRow.className = "stat-row";
@@ -90,7 +126,7 @@ function renderPlayerPanel() {
   defenceLabel.textContent = "defence";
   const defencevalue = document.createElement("span");
   defencevalue.className = "stat-value";
-  defencevalue.textContent = ` ${player.defense}`;
+  defencevalue.textContent = ` ${state.player.defense}`;
 
   defenceRow.append(defenceLabel, defencevalue);
   attackRow.append(attackLabel, attackValue);
@@ -101,6 +137,7 @@ function renderPlayerPanel() {
   panel.append(title, hpRow, mpRow, xpRow, levelRow, attackRow, defenceRow);
 }
 renderPlayerPanel();
+
 // Items / Equipment
 const ITEMS = {
   // Weapons
@@ -250,26 +287,3 @@ const SHOP_STOCK = [
   "fireball_tome",
   "lightningbolt_tome",
 ];
-
-// Entity
-
-class Entity {
-  constructor(name, hp, atk, armor, weapon = null) {
-    this.name = name;
-    this.hp = hp;
-    this.atk = atk;
-    this.weapon = weapon;
-  }
-
-  fight(entity) {
-    const damage = this.weapon ? this.weapon.atk : this.atk;
-    entity.hp -= damage;
-    console.log(`${this.name} attacks ${entity.name} and`);
-  }
-}
-class Item {
-  constructor(name, heal) {
-    this.name = name;
-    this.heal = heal;
-  }
-}
