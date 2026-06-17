@@ -5,10 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <header></header>
-    <main></main>
+    <div id="app">
+      <header id="header">
+        <h1>Overskrift</h1>
+        <div class="subtitle">A text adventure, fight, loot, kill</div>
+      </header>
+
+      <main id="main">
+        <div class="panel" id="player-panel"></div>
+
+        <div id="main-panel"></div>
+
+        <div id="inventory"></div>
+
+        <div id="biome-bar">
+          <span class="biome-label">Biome:</span>
+          <button class="biome-btn">Sewer</button>
+          <button class="biome-btn">Forest</button>
+          <button class="biome-btn">Mountain</button>
+          <button class="biome-btn">Lake</button>
+        </div>
+      </main>
+    </div>
   </body>
 </html>

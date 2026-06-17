@@ -1,3 +1,106 @@
+const player = {
+  name: "Adventurer",
+  hp: 20,
+  maxHp: 20,
+  mp: 10,
+  maxMp: 10,
+  xp: 0,
+  xpToNextLevel: 50,
+  level: 1,
+  attack: 5,
+  defense: 2,
+  gold: 30,
+  inventory: ["Health potion"],
+};
+
+const enemies = {
+  name: "Cow",
+  hp: 5,
+  defence: 1,
+  attack: 1,
+};
+
+function renderMainPanel() {
+  const panel = document.getElementById("main-panel");
+  const intro = document.createElement("div");
+  intro.className = "intro";
+  intro.textContent =
+    "You wake in darkness  cold stone beneath you, the smell of rot nearby";
+
+  panel.append(intro);
+}
+renderMainPanel();
+
+function renderPlayerPanel() {
+  const panel = document.getElementById("player-panel");
+
+  const title = document.createElement("div");
+  title.className = "panel-title";
+  title.textContent = player.name;
+
+  const hpRow = document.createElement("div");
+  hpRow.className = "stat-row";
+  const hpLabel = document.createElement("span");
+  hpLabel.className = "stat-label";
+  hpLabel.textContent = "HP";
+  const hpValue = document.createElement("span");
+  hpValue.className = "stat-value";
+  hpValue.textContent = ` ${player.hp} / ${player.maxHp}`;
+
+  const mpRow = document.createElement("div");
+  mpRow.className = "stat-row";
+  const mpLabel = document.createElement("span");
+  mpLabel.className = "stat-label";
+  mpLabel.textContent = "MP";
+  const mpValue = document.createElement("span");
+  mpValue.className = "stat-value";
+  mpValue.textContent = ` ${player.mp} / ${player.maxMp}`;
+
+  const xpRow = document.createElement("div");
+  xpRow.className = "stat-row";
+  const xpLabel = document.createElement("span");
+  xpLabel.className = "stat-label";
+  xpLabel.textContent = "XP";
+  const xpValue = document.createElement("span");
+  xpValue.className = "stat-value";
+  xpValue.textContent = ` ${player.xp} / ${player.xpToNextLevel}`;
+
+  const levelRow = document.createElement("div");
+  levelRow.className = "stat-row";
+  const levelLabel = document.createElement("span");
+  levelLabel.className = "stat-label";
+  levelLabel.textContent = "level ";
+  const levelValue = document.createElement("span");
+  levelValue.className = "stat-value";
+  levelValue.textContent = ` ${player.level}`;
+
+  const attackRow = document.createElement("div");
+  attackRow.className = "stat-row";
+  const attackLabel = document.createElement("span");
+  attackLabel.className = "stat-label";
+  attackLabel.textContent = "Attack";
+  const attackValue = document.createElement("span");
+  attackValue.className = "stat-value";
+  attackValue.textContent = ` ${player.attack}`;
+
+  const defenceRow = document.createElement("div");
+  defenceRow.className = "stat-row";
+  const defenceLabel = document.createElement("span");
+  defenceLabel.className = "stat-label";
+  defenceLabel.textContent = "defence";
+  const defencevalue = document.createElement("span");
+  defencevalue.className = "stat-value";
+  defencevalue.textContent = ` ${player.defense}`;
+
+  defenceRow.append(defenceLabel, defencevalue);
+  attackRow.append(attackLabel, attackValue);
+  levelRow.append(levelLabel, levelValue);
+  hpRow.append(hpLabel, hpValue);
+  mpRow.append(mpLabel, mpValue);
+  xpRow.append(xpLabel, xpValue);
+  panel.append(title, hpRow, mpRow, xpRow, levelRow, attackRow, defenceRow);
+}
+renderPlayerPanel();
 // Items / Equipment
 const ITEMS = {
   // Weapons
