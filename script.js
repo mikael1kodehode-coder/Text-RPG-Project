@@ -218,6 +218,84 @@ function renderPlayerPanel() {
 }
 renderPlayerPanel();
 
+// EQUIPPED//
+
+function renderEquippedPanel() {
+  const panel = document.getElementById("equipped-panel");
+
+  const title = document.createElement("div");
+  title.className = "panel-title";
+  title.textContent = "Equipped";
+
+  const weaponRow = document.createElement("div");
+  weaponRow.className = "equipped-row";
+
+  const weaponLabel = document.createElement("span");
+  weaponLabel.className = "stat-label";
+  weaponLabel.textContent = "Weapon: ";
+
+  const weaponValue = document.createElement("span");
+  weaponValue.className = "stat-value";
+  weaponValue.textContent = state.player.weapon;
+
+  const armorRow = document.createElement("div");
+  armorRow.className = "equipped";
+
+  const armorLabel = document.createElement("span");
+  armorLabel.className = "stat-label";
+  armorLabel.textContent = "Armor: ";
+
+  const armorValue = document.createElement("span");
+  armorValue.className = "stat-value";
+  armorValue.textContent = state.player.armor;
+
+  weaponRow.append(weaponLabel, weaponValue);
+  armorRow.append(armorLabel, armorValue);
+
+  panel.append(title, weaponRow, armorRow);
+}
+
+renderEquippedPanel();
+
+// INVENTORY //
+
+function renderInventoryPanel() {
+  const panel = document.getElementById("inventory-panel");
+
+  const title = document.createElement("div");
+  title.className = "panel-title";
+  title.textContent = "Inventory";
+
+  const potionRow = document.createElement("div");
+  potionRow.className = "inventory-row";
+
+  const potionLabel = document.createElement("span");
+  potionLabel.className = "stat-label";
+  potionLabel.textContent = "Health Potion";
+
+  const potionValue = document.createElement("span");
+  potionValue.className = "stat-value";
+  potionValue.textContent = state.inventory.health_potion;
+
+  const goldRow = document.createElement("div");
+  goldRow.className = "inventory-row";
+
+  const goldLabel = document.createElement("span");
+  goldLabel.className = "stat-label";
+  goldLabel.textContent = "Gold: ";
+
+  const goldValue = document.createElement("span");
+  goldValue.className = "stat-value";
+  goldValue.textContent = state.player.gold;
+
+  goldRow.append(goldLabel, goldValue);
+  potionRow.append(potionLabel, potionValue);
+
+  panel.append(title, goldRow, potionRow);
+}
+
+renderInventoryPanel();
+
 // Items / Equipment
 const ITEMS = {
   // Weapons
